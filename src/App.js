@@ -1,39 +1,54 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./styles.css";
 
 export default function App() {
   const [users, setUsers] = useState([]);
+
   const fetchUsers = async () => {
     const response = await axios.get(
       "https://randomuser.me/api?results=5&gender=male"
     );
-    const users = response.data.results;
-    console.log(users);
-    const names = [];
-    const photos = [];
-    users.forEach((user) => {
+
+    const fetchedUsers = response.data.results;
+
+    const currentUsers = [];
+    fetchedUsers.forEach((user) => {
       const { title, first, last } = user.name;
       const { large } = user.picture;
       const fullName = `${title}. ${first} ${last}`;
-      names.push({ name: fullName, photo: large });
+      currentUsers.push({ name: fullName, photo: large });
     });
-    setUsers(names);
+
+    setUsers(currentUsers);
   };
 
   return (
     <div className="App">
-      {users.map((user) => (
-        <>
-          <h1>{user.name}</h1>
-          <img src={user.photo} />
-        </>
-      ))}
-      <br></br>
+      <Message text="users is empty" display={users.length === 0} />
+      <div>
+        {users.map((user) => (
+          <UserProfile name={user.name} photo={user.photo} />
+        ))}
+      </div>
       <button onClick={fetchUsers}> Fetch Users </button>
     </div>
   );
 }
 
-const message=(text)=>{
-}
+const UserProfile = (props) => {
+  const { name, photo } = props;
+
+  return (
+    <>
+      <h1>{name}</h1>
+      <img src={photo} alt={name} />
+    </>
+  );
+};
+
+const Message = ({ text, display }) => {
+  if (!display) return <></>;
+
+  return <h1>{text}</h1>;
+};
