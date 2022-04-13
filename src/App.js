@@ -5,9 +5,9 @@ import "./styles.css";
 export default function App() {
   const [users, setUsers] = useState([]);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (gender) => {
     const response = await axios.get(
-      "https://randomuser.me/api?results=5&gender=male"
+      `https://randomuser.me/api?results=5&gender=${gender}`
     );
 
     const fetchedUsers = response.data.results;
@@ -25,13 +25,15 @@ export default function App() {
 
   return (
     <div className="App">
+      <button onClick={() => fetchUsers("male")}>Male</button>
+      <button onClick={() => fetchUsers("female")}>Female</button>
+      <button onClick={() => fetchUsers("")}>All</button>
       <Message text="users is empty" display={users.length === 0} />
       <div>
         {users.map((user) => (
           <UserProfile name={user.name} photo={user.photo} />
         ))}
       </div>
-      <button onClick={fetchUsers}> Fetch Users </button>
     </div>
   );
 }
