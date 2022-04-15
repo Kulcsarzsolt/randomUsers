@@ -17,7 +17,8 @@ export default function App() {
       const { title, first, last } = user.name;
       const { large } = user.picture;
       const fullName = `${title}. ${first} ${last}`;
-      currentUsers.push({ name: fullName, photo: large });
+
+      currentUsers.push({ name: fullName, photo: large, gender: user.gender });
     });
 
     setUsers(currentUsers);
@@ -31,7 +32,11 @@ export default function App() {
       <Message text="users is empty" display={users.length === 0} />
       <div>
         {users.map((user) => (
-          <UserProfile name={user.name} photo={user.photo} />
+          <UserProfile
+            name={user.name}
+            photo={user.photo}
+            gender={user.gender}
+          />
         ))}
       </div>
     </div>
@@ -39,11 +44,13 @@ export default function App() {
 }
 
 const UserProfile = (props) => {
-  const { name, photo } = props;
+  const { name, photo, gender } = props;
+
+  const textColor = gender === "male" ? "blue" : "red";
 
   return (
     <>
-      <h1>{name}</h1>
+      <h1 style={{ color: textColor }}>{name}</h1>
       <img src={photo} alt={name} />
     </>
   );
