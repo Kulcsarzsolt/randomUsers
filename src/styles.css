@@ -2,3 +2,15 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.filterButton {
+  margin: 5px;
+  width: 8rem;
+  background-color: lightblue;
+  border: 1px solid blue;
+}
+
+.filterButton:hover {
+  background-color: cadetblue;
+  border: 1px solid red;
+}

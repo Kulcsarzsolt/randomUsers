@@ -26,9 +26,16 @@ export default function App() {
 
   return (
     <div className="App">
-      <button onClick={() => fetchUsers("male")}>Male</button>
-      <button onClick={() => fetchUsers("female")}>Female</button>
-      <button onClick={() => fetchUsers("")}>All</button>
+      <div style={{ borderBottom: "2px solid blue" }}>
+        <FilterButtonTwo onClick={fetchUsers}>Male</FilterButtonTwo>
+        <FilterButtonTwo onClick={fetchUsers}>Female</FilterButtonTwo>
+        <FilterButtonTwo onClick={fetchUsers}>All</FilterButtonTwo>
+
+        {/* <FilterButton fetchUsers={fetchUsers} gender="Male" />
+        <FilterButton fetchUsers={fetchUsers} gender="Female" />
+        <FilterButton fetchUsers={fetchUsers} /> */}
+      </div>
+
       <Message text="users is empty" display={users.length === 0} />
       <div>
         {users.map((user) => (
@@ -60,4 +67,31 @@ const Message = ({ text, display }) => {
   if (!display) return <></>;
 
   return <h1>{text}</h1>;
+};
+
+const FilterButton = ({ fetchUsers, gender = "" }) => {
+  let buttonText = gender === "" ? "All" : gender;
+  return (
+    <>
+      <button
+        className="filterButton"
+        onClick={() => fetchUsers(gender.toLowerCase())}
+      >
+        {buttonText}
+      </button>
+    </>
+  );
+};
+
+const FilterButtonTwo = ({ onClick, children }) => {
+  return (
+    <>
+      <button
+        className="filterButton"
+        onClick={() => onClick(children.toLowerCase())}
+      >
+        {children}
+      </button>
+    </>
+  );
 };
